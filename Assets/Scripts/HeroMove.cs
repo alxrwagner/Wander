@@ -21,6 +21,8 @@ public class HeroMove : MonoBehaviour
         MovementLogic();
 
         JumpLogic();
+
+        Debug.DrawRay(transform.position, -transform.up * 4f, Color.red);
     }
 
     private void MovementLogic()
@@ -30,13 +32,13 @@ public class HeroMove : MonoBehaviour
         transform.Translate(movement * SpeedMove * Time.fixedDeltaTime);
     }
 
-    private void JumpLogic()
-    {
-        if (Input.GetAxis("Jump") > 0 && _isGrounded)
-        {
-            _rigidbody.AddForce(Vector3.up * JumpPower);
-        }
-    }
+    //private void JumpLogic()
+    //{
+    //    if (Input.GetAxis("Jump") > 0 && _isGrounded)
+    //    {
+    //        _rigidbody.AddForce(Vector3.up * JumpPower);
+    //    }
+    //}
 
     //private void JumpLogic()
     //{
@@ -45,6 +47,15 @@ public class HeroMove : MonoBehaviour
     //        _rigidbody.AddForce(Vector3.up * JumpPower);
     //    }
     //}
+
+    private void JumpLogic()
+    {
+        RaycastHit info;
+        if(Input.GetAxis("Jump") > 0 && Physics.Raycast(transform.position, -transform.up, 1.5f))
+        {
+             _rigidbody.AddForce(Vector3.up * JumpPower);
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
